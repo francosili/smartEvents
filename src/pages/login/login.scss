@@ -1,0 +1,35 @@
+page-login {
+    .container{
+        background: -webkit-linear-gradient(top, #7579ff, #b224ef);
+        background-repeat:no-repeat;
+        background-size:contain;
+        background-position:center;
+        .loginImage{
+            width: 30%;
+            height: 20%;
+            background: none;
+            display:block;
+            margin:auto;
+        }
+        .titleLogin{
+            font-size: 3rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        .cardLogin{
+            .headerLogin{
+                text-align: center;
+                font-size: 2rem;
+            }
+            .loginList{        
+                .loginItem{    
+                }
+            }
+            .buttonLogin{
+                margin-top:5%;
+                border-right-width: thin !important;
+                border-left-width: thin !important;
+            }
+        }
+    }
+}
