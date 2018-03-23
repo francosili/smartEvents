@@ -24,20 +24,22 @@
       Login
     </ion-card-header>
     <ion-card-content >
+      <form (ngSubmit)="login()" #registerForm="ngForm">
       <ion-list class="loginList">
         <ion-item>
-          <ion-label floating required>Username</ion-label>
-          <ion-input ng-value="user" type="text"></ion-input>
+          <ion-label floating>Username</ion-label>
+          <ion-input type="text" [(ngModel)]="credenciales.usuario" required name="usuario"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label ng-value="pass" floating required>Password</ion-label>
-          <ion-input type="password"></ion-input>
+          <ion-label floating>Password</ion-label>
+          <ion-input type="password" [(ngModel)]="credenciales.password" required name="password"></ion-input>
         </ion-item>
       </ion-list>
-      <button ion-button icon-left color="secondary" outline full class="buttonLogin" (click)="login()">
+      <button ion-button icon-left color="secondary" outline full class="buttonLogin" type="submit">
         <ion-icon name="log-in"></ion-icon>
         Sing In
-      </button>        
+      </button>
+    </form>        
     </ion-card-content>
   </ion-card>
 </ion-content>

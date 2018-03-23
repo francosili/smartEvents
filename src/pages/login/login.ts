@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { AuthProvider } from '../../providers/auth/auth';
-
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -16,22 +9,39 @@ import { AuthProvider } from '../../providers/auth/auth';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  user: String;
-  pass: String;
-  usuario: Observable<any>;
+  public credenciales = { usuario: '', password: '' };
+  public respuesta: Observable<any>;
+  public loading: Boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthProvider) {
-  }
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public auth: AuthProvider, 
+    public alertCtrl: AlertController
+    ) {}
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
   }
 
   login() {
-    this.usuario = this.auth.login(this.user, this.pass);
-    this.usuario
-    .subscribe(data => {
-      console.log('my data: ', data);
-    })
+    this.respuesta = this.auth.login(this.credenciales.usuario, this.credenciales.password);
+    this.respuesta.subscribe(data => {
+      this.loading = true;
+      console.log(data);
+      this.navCtrl.setRoot('HomePage');
+    }, error => {
+      this.loading = false;
+      this.showAlert("Error " + error.status, "Error de conexion\n" + error.statusText);
+    });
+  }
+
+  public showAlert(titulo: string, texto: string) {
+    let alert = this.alertCtrl.create({
+      title: titulo,
+      subTitle: texto,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 }
+

@@ -1,31 +1,30 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Headers, Http, Request, RequestOptions, RequestOptionsArgs, RequestMethod } from '@angular/http';
+import { Configuraciones } from '../../clases/configuraciones';
+import { Md5 } from 'ts-md5/dist/md5';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/timeout';
 
-/*
-  Generated class for the AuthProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class AuthProvider {
-  baseUrl = 'http://192.168.0.15/smartevents/login'
-  constructor(public http: HttpClient) {
-    console.log('Hello AuthProvider Provider');
-  }
+  
+  constructor(public http: Http) {}
 
   login(pass, user) {
-    let options = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'user' : user,
-        'pass' : pass
-      }
-    };
-    return new Observable(resolve => {
-      this.http.post(this.baseUrl,options);
-     });
+    let headers = new Headers;
+    headers.append('user', user);
+    headers.append('pass', pass);
+    var opciones: RequestOptionsArgs = {
+      url: Configuraciones.authUrl,
+      method: RequestMethod.Post,
+      search: null,
+      headers: headers,
+      body: null
+    }
+    var reqOptions = new RequestOptions(opciones);
+    var req = new Request(reqOptions);
+    return this.http.request(req).timeout(Configuraciones.timeoutDefault).map(res => { return res.json() });     
   }
   
 }
